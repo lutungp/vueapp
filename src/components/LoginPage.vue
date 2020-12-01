@@ -17,6 +17,9 @@
     </Page>
 </template>
 <script>
+import * as http from "http";
+import { getString, setString } from "tns-core-modules/application-settings";
+
 export default {
     data() {
         return {
@@ -27,6 +30,7 @@ export default {
             },
         };
     },
+
     methods : {
         onButtonTap(){
             let me = this;
@@ -35,8 +39,24 @@ export default {
                 return false;
             }
 
-            me.$store.commit('save', me.user );
-            me.$navigator.navigate('/home', { clearHistory: true });
+            let url = "https://api-darbechicken.internaldarbegroup.com/api/login"
+            http.request({
+                url: url,
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                content: JSON.stringify({
+                    email: me.user.username,
+                    password: me.user.password
+                })
+            }).then(response => {
+                var result = response.content.toJSON();
+                setString("token", result.token);
+                setString("username", result.username);
+                me.$store.commit('save', me.user );
+                me.$navigator.navigate('/home', { clearHistory: true });
+            }, error => {
+                console.error(error);
+            });
         },
 
         focusPassword(){

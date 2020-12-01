@@ -7,8 +7,8 @@
 </template>
 
 <script >
-  import * as http from "http";
   import * as moment from "moment";
+  import { getString, setString } from "tns-core-modules/application-settings";
   export default {
     data() {
       return {
@@ -17,15 +17,11 @@
     },
 
     beforeCreated () {
+      var st = getString('token');
       let session = this.$store.getters.isAuth;
       if (!session) {
         this.$navigator.navigate('/login', { clearHistory: true });
       }
-    },
-
-    mounted(){
-      let user = this.$store.getters.user;
-      this.username = user.username;
     },
 
     methods : {

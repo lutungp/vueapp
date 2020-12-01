@@ -2,7 +2,6 @@ import Vue from 'nativescript-vue'
 import VueDevtools from 'nativescript-vue-devtools'
 import Navigator from 'nativescript-vue-navigator'
 // import FontIcon from 'nativescript-vue-fonticon'
-
 import './app.scss'
 
 if(TNS_ENV !== 'production') {
