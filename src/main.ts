@@ -8,8 +8,12 @@ if(TNS_ENV !== 'production') {
   Vue.use(VueDevtools)
 }
 
-import store from './store'
+import store from './store/store'
 import {routes} from './routes'
+
+// import sideDrawer from './components/sideDrawer.vue'
+// import drawerContent from './components/drawerContent.vue'
+// import HomePage from './components/HomePage.vue'
 
 Vue.use(Navigator, { routes });
 
@@ -24,6 +28,8 @@ Vue.config.silent = (TNS_ENV === 'production')
 //   }
 // });
 
+Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer)
+
 new Vue({
   store,
   render: h => h('Navigator', {
@@ -32,3 +38,17 @@ new Vue({
     } 
   })
 }).$start()
+
+
+// new Vue({
+//   store,
+//   render (h) {
+//     return h(
+//       sideDrawer,
+//       [
+//         h(drawerContent, { slot: 'drawerContent' }),
+//         h(HomePage, { slot: 'mainContent' })
+//       ]
+//     )
+//   }
+// }).$start()

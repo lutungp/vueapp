@@ -1,35 +1,42 @@
-<template>
-    <Page loaded="pageLoaded" actionBarHidden="true">
-      <StackLayout backgroundColor="#3c495e">
-        <Label :text="username" height="70" backgroundColor="#43b883"/>
-      </StackLayout>
-    </Page>
+<template lang="html">
+  <Page actionBarHidden="true" androidStatusBarBackground="#53ba82">
+    <!-- <ActionBar>
+      <GridLayout width="100%" columns="auto, *">
+        <Label text="MENU" @tap="openDrawer()" col="0"/>
+        <Label class="title" text="Welcome to NativeScript-Vue!"  col="1"/>
+      </GridLayout>
+    </ActionBar> -->
+
+    <GridLayout ~mainContent columns="*" rows="*">
+      <Label class="message" :text="text" col="0" row="0"/>
+    </GridLayout>
+    <SD/>
+  </Page>
 </template>
 
-<script >
-  import * as moment from "moment";
-  import { getString, setString } from "tns-core-modules/application-settings";
-  export default {
-    data() {
-      return {
-        username : "",
-      }
-    },
-
-    beforeCreated () {
-      var st = getString('token');
-      let session = this.$store.getters.isAuth;
-      if (!session) {
-        this.$navigator.navigate('/login', { clearHistory: true });
-      }
-    },
-
-    methods : {
-      
+<script>
+import sideDrawer from './mixins/sideDrawer'
+import { getString, setString } from "tns-core-modules/application-settings";
+import SD from './sideDrawer.vue'
+import DC from './drawerContent.vue'
+export default {
+  mixins: [ sideDrawer ],
+  components : { SD, DC },
+  data () {
+    return {
+      text: 'Hello Home Page!'
     }
-  }
+  },
+
+  beforeCreated () {
+    var st = getString('token');
+    let session = this.$store.getters.isAuth;
+    if (!session) {
+      this.$navigator.navigate('/login', { clearHistory: true });
+    }
+  },
+}
 </script>
 
-<style scoped>
-
+<style lang="css">
 </style>
